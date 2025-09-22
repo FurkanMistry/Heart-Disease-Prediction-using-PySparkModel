@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Heart Risk Predictor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/style.css" />
+  <meta name="csrf-token" content="">
+  <meta name="theme-color" content="#111827" />
+</head>
+<body>
+  <main class="container">
+    <nav class="topbar">
+      <div class="brand">
+        <span class="logo">❤️</span>
+        <span class="title">Heart Risk</span>
+      </div>
+      <div class="actions">
+        <button class="chip" type="button" id="themeToggle" aria-label="Toggle theme">✨</button>
+      </div>
+    </nav>
+
+    <header class="hero">
+      <div class="hero-copy">
+        <h1>Know Your Heart Risk <span class="spark">✨</span></h1>
+        <p class="sub">Enter your details and get an instant, friendly breakdown with actionable tips. Educational demo only — no PHI stored.</p>
+        
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="blob b1">💓</div>
+        <div class="blob b2">🍎</div>
+        <div class="blob b3">🏃‍♂️</div>
+      </div>
+    </header>
+
+    <section class="card form-card">
+      <form id="predict-form">
+        <div class="grid">
+          {% for f in fields %}
+            <div class="field">
+              <label for="{{ f.name }}">{{ f.sch.label }}</label>
+              {% if f.sch.widget == 'select' %}
+                <select id="{{ f.name }}" name="{{ f.name }}" required>
+                  {% for c in f.sch.choices %}
+                    <option value="{{ c.value }}">{{ c.label }}</option>
+                  {% endfor %}
+                </select>
+              {% else %}
+                <input
+                  type="number"
+                  id="{{ f.name }}" name="{{ f.name }}"
+                  step="{{ f.sch.step }}"
+                  min="{{ f.sch.min }}"
+                  max="{{ f.sch.max }}"
+                  {% if f.sch.readonly %}readonly{% endif %}
+                  required
+                />
+                <small class="hint">Expected: {{ f.sch.min }}–{{ f.sch.max }}</small>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+        <div class="actions">
+          <button class="btn" type="submit" id="predictBtn">
+            <span class="btn-icon">🧠</span>
+            <span>Predict</span>
+          </button>
+          <button class="btn-secondary hidden" type="button" id="resetBtn">
+            <span class="btn-icon">↺</span>
+            <span>Reset</span>
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <section id="result" class="card result-card hidden">
+      <div class="result-head">
+        <h2>Your Prediction</h2>
+        <p class="label" id="label"></p>
+      </div>
+      <div class="gauge-wrap">
+        <svg class="gauge" viewBox="0 0 120 60" aria-label="Risk gauge" role="img">
+          <defs>
+            <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#34d399"/>
+              <stop offset="50%" stop-color="#fbbf24"/>
+              <stop offset="100%" stop-color="#f87171"/>
+            </linearGradient>
+          </defs>
+          <path d="M10,60 A50,50 0 0,1 110,60" fill="none" stroke="url(#g1)" stroke-width="10" opacity=".35"/>
+          <path id="gaugeArc" d="M10,60 A50,50 0 0,1 110,60" fill="none" stroke="url(#g1)" stroke-width="10" stroke-linecap="round" stroke-dasharray="157" stroke-dashoffset="157"/>
+        </svg>
+        <div class="gauge-center">
+          <div class="gauge-value" id="conf">0%</div>
+        </div>
+      </div>
+      <div class="progress legacy hidden"><div id="bar" class="bar"></div></div>
+      <div class="rec">
+        <h3>Recommendations</h3>
+        <ul id="rec-list"></ul>
+      </div>
+    </section>
+
+    <footer class="footer">Educational demo. Consult professionals for medical advice.</footer>
+  </main>
+  <script src="/static/js/app.js"></script>
+  <script>
+    window.renderErrors = function(errors){
+      if(!errors) return;
+      Object.entries(errors).forEach(([name,msg])=>{
+        const el = document.getElementById(name);
+        if(el){ el.classList.add('error'); el.title = msg; }
+      });
+    }
+  </script>
+</body>
+</html>
