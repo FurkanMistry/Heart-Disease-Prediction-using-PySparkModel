@@ -1,4 +1,5 @@
 # Heart Risk Predictor (Django + ONNX)
+<img width="1881" height="933" alt="image" src="https://github.com/user-attachments/assets/a65b3cc1-cbbd-43b8-9d87-80bdb0ebf92e" />
 
 Minimal, stylish, single-page Django app that predicts cardiovascular disease risk using your existing ONNX model and returns specific, actionable recommendations based on confidence.
 
