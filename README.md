@@ -65,3 +65,4 @@ Invoke-RestMethod -Uri http://127.0.0.1:8000/api/predict -Method Post -ContentTy
 ## Notes
 - Demo only; no PHI; not medical advice.
 - SQLite is unused; kept for default Django setup.
+- A Docker image is available for quick setup and deployments
