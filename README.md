@@ -2,11 +2,11 @@
 
 Minimal, stylish, single-page Django app that predicts cardiovascular disease risk using your existing ONNX model and returns specific, actionable recommendations based on confidence.
 
+This project is live hosted at Render - https://heart-disease-prediction-using-pyspark.onrender.com/
 ## What this app does
 - Single-page UI with a clean card layout
 - Sends your inputs as JSON to `/api/predict` and renders the result dynamically
 - Loads ONNX model with `onnxruntime`
-- Uses feature order from your `try.py` so predictions match the model
 - Confidence visualized with a progress bar and tailored recommendations
 
 ## Requirements
